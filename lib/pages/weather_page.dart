@@ -23,11 +23,20 @@ class _WeatherPageState extends State<WeatherPage> {
   _fetchWeather(String cityName) async {
 
     try {
+
+      showDialog(
+          context: context,
+          builder: (context) {
+            return const Center(child: CircularProgressIndicator());
+          });
+
       final weather = await _weatherService.getWeather(cityName);
       setState(() {
         _weather = weather;
-         // Xóa lỗi nếu thành công
       });
+
+      Navigator.of(context).pop();
+
     } catch (e) {
       Fluttertoast.showToast(
           msg: "City not found",
